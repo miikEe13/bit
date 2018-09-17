@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>VueJS curso </title>
+	<meta charset="utf-8">
+</head>
+<body>
+	<main>
+		<!-- Interpolacion / imprimir el contenido de una variable del modelo / instancia de vue -->
+		<h1>{{text}}</h1>
+		<h2 v-text="text"></h2>
+
+		<hr>
+
+		<!--Two way data binding / enlace de datos birideccional y la reactividad-->
+		<input type="text" v-model="name" name="">
+		<p>el nombre es: {{name}}</p>
+		<!-- hacer if con vue-->
+		
+		<hr>
+
+		<div>
+			<!--Directivas condicionales  v-if, v-else-if, v-else-->
+			<p v-if="edad" v-text="edad"></p>
+			<!--Two way data binding -->
+			<input type="text" v-model="nota" name="" placeholder="Escribe la nota">
+			<strong v-if="nota && nota > 5 && nota <= 9 ">Estas del otro lado</strong>
+			<strong v-else-if="nota && nota == 10">¡¡EXELENTE!!</strong>
+			<span v-else="nota && nota <=5">Has reprobado</span>
+		</div>
+		<!--<pre>
+			{{$data}}
+		</pre>-->
+		<hr>
+
+		<div>
+			<!--Directivas de bucles v-for  -->
+			<h1>Listado de peliculas (Array)</h1>
+			<ol>
+				<li v-for="pelicula in peliculas">{{pelicula}}</li>
+			</ol>
+		</div>
+
+		<hr>
+
+		<div>
+			<!--Directivas de bucles v-for para objeto  -->
+			<h1>Listado de frutas (Array de objeto)</h1>
+			<ul>
+				<li v-for="(fruta, index) in frutas">{{index}}: <b>{{fruta.nombre}}</b> se da en  {{fruta.temporada}}</li>
+			</ul>
+		</div>
+
+		<div>
+			<!--Directivas de bucles v-for para objeto  -->
+			<h1>Superfruta (Listado de elementos de un objeto)</h1>
+			<ul>
+				<li v-for="(value, key, index) in superfruta">{{index}}: <b>{{key}}</b> {{value}}</li>
+			</ul>
+		</div>
+
+		<hr>
+		<h1>Eventos</h1>
+		<div>
+			<h2>Evento click</h2>
+			<button v-on:click="crearPelicula()">crear pelicula</button>
+			<button @click="borrarPelicula()">eliminar pelicula</button>
+		</div>
+
+		<div>
+			<h2>Agregar peliculas</h2>
+			<ol>
+				<li v-for="(pelicula, index) in peliculas">{{pelicula}}
+					<button @click="borrarPelicula(index)">eliminar pelicula</button>
+				</li>
+			</ol>
+			<form @submit.prevent="crearPelicula()">
+				<input type="text" name="" v-model="peliculaNueva">
+				<input type="submit" name="" value="Guardar pelicula">
+			</form>
+		</div>
+		<hr>
+		<div>
+			<h1>Propiedades Computadas</h1>
+			<!-- esto es mucha logica para la vista, la solucion es una propiedad computada -->
+			<h2>{{name + ' ' +apellidos + ' Nota: '+nota}}</h2>
+			<h2>{{nombreYapellidos}}</h2>
+			<h2>Listado ordenado</h2>
+			<ul class="sort-movies">
+				<li v-for="(pelicula, index) in peliculasOrdenadas">{{pelicula}}
+					<button @click="borrarPelicula(index)">eliminar pelicula</button>
+				</li>
+			</ul>
+		</div>
+		<hr>
+		<div>
+			<h1>Filtro</h1>
+			<input type="search" name="" v-model="busqueda" placeholder="search">
+			<ul class="filter-fruits">
+				<li v-for="(fruta, index) in buscarFruta">{{fruta.nombre | mayusculas}}</li>
+			</ul>
+		</div>
+
+	</main>
+	<!-- development version, includes helpful console warnings -->
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,7 +1,67 @@
 console.log('hola mundo');
+Vue.component('articulos', {
+	template: `
+				<div class="articulos">
+					<h1>Componente {{titulo}}</h1>
+					<div>
+						<h1>Listado por ajax</h1>
+						<ol v-if="posts" class="post-data">
+							<li v-for="(post, index) in posts">
+								{{post.title}}
+							</li>
+						</ol>
+						<span v-else>Cargando api</span>
+					</div>
+				</div>
+	`,
+	mounted(){
+			axios.get('https://jsonplaceholder.typicode.com/posts')
+			.then((respuesta)=>{
+				console.log(respuesta.data);
+				this.posts = respuesta.data;
+			});
+	},
+	data(){
+		return {
+			titulo: 'Articulos',
+			posts: null
+		}
+	}
+});
+
+Vue.component('frutas', {
+	props: ['objeto'],
+	mounted(){
+		console.log(this.objeto);
+	}
+});
+Vue.component('padre', {
+	template: `
+		<div>
+			<h1>Componente padre</h1>
+			<div>
+				<hijo/>
+			</div>
+		</div>
+	`
+});
+
+Vue.component('hijo', {
+	template: `<p style="background: yellow;">Soy un parrafo en el componente hijo</p>`
+});
+
+
 Vue.filter('mayusculas', (value) => value.toUpperCase());
 new Vue({
 	el: 'main',
+	mounted(){
+		console.log("hola mundo desde mounted");
+		axios.get('https://jsonplaceholder.typicode.com/posts')
+			.then((respuesta)=>{
+				console.log(respuesta.data);
+				this.posts = respuesta.data;
+			});
+	},
 	data: {
 		text: 'hello world form vue 2',
 		name: 'miguel angel',
@@ -22,7 +82,10 @@ new Vue({
 		],
 		superfruta: {nombre: 'Mandarina', temporada: 'veran', precio: 'bajo'},
 		peliculaNueva: null,
-		busqueda: null
+		busqueda: null,
+		confirmado: null,
+		posts: null,
+		elegido: 'padre'
 	},
 	methods: {
 		crearPelicula(){
@@ -36,6 +99,9 @@ new Vue({
 			console.log("el indice de la pelicula es: "+index)
 			alert('estas seguro que quieres borrar?')
 			this.peliculas.splice(index, 1)
+		},
+		marcar(index){
+			this.confirmado = index;
 		}
 	},
 	computed: {
@@ -63,4 +129,18 @@ new Vue({
 		}
 	}
 
+});
+
+const vue2 = new Vue({
+	el: '#app',
+	data: {
+		texto: 'Segunda Instancia de vue'
+	}
+})
+
+const vue3 = new Vue({
+	el: '#tercera',
+	data: {
+		texto: 'tercera Instancia de vue'
+	}
 })

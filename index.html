@@ -3,9 +3,52 @@
 <head>
 	<title>VueJS curso </title>
 	<meta charset="utf-8">
+	<style type="text/css">
+		.like {
+			background: green;
+			padding: 20px;
+			color: white;
+		}
+	</style>
 </head>
 <body>
+	<div>
+	</div>
+	<hr>
+	<div id='tercera'>
+		<h1>{{texto}}</h1>
+	</div>
+	<div id='app'>
+		<h1>{{texto}}</h1>
+	</div>
 	<main>
+		<div>
+			<hr>
+			<h1>Componentes dinamicos</h1>
+			<button @click="elegido = 'articulos'">Cargar Articulos</button>
+			<button @click="elegido = 'padre'">Cargar padre</button>
+			<button @click="elegido = 'hijo'">Cargar hijo</button>
+			<component :is="elegido">
+			</component>
+		</div>
+		<div>
+			<hr>
+			<h1>Componentes dentro de componentes</h1>
+			<padre/>
+		</div>
+
+		<div>
+			<hr>
+				<frutas :objeto="superfruta" inline-template>
+					<div>
+						<h1>Componente Frutas</h1>
+						<h3>{{objeto.nombre}}</h3>
+						<hr>
+					</div>
+				</frutas>
+				<articulos></articulos>
+			<hr>
+		</div>
 		<!-- Interpolacion / imprimir el contenido de una variable del modelo / instancia de vue -->
 		<h1>{{text}}</h1>
 		<h2 v-text="text"></h2>
@@ -97,13 +140,23 @@
 			<h1>Filtro</h1>
 			<input type="search" name="" v-model="busqueda" placeholder="search">
 			<ul class="filter-fruits">
-				<li v-for="(fruta, index) in buscarFruta">{{fruta.nombre | mayusculas}}</li>
+				<li @click="marcar(index)" v-bind:class="{like: index==confirmado}" v-for="(fruta, index) in buscarFruta">{{fruta.nombre | mayusculas}}</li>
 			</ul>
 		</div>
-
+		<hr>
+		<div>
+			<h1>Listado por ajax</h1>
+			<ol v-if="posts" class="post-data">
+				<li v-for="(post, index) in posts">
+					{{post.title}}
+				</li>
+			</ol>
+			<span v-else>Cargando api</span>
+		</div>
 	</main>
 	<!-- development version, includes helpful console warnings -->
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<script src="js/main.js"></script>
 </body>
 </html>
